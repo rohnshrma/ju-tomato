@@ -62,6 +62,40 @@ const reducerFunction = (state, action) => {
     };
   }
 
+  if (action.type === "REMOVE") {
+    console.log("removing item with id", action.payload);
+    const updatedCartItems = state.cartItems.filter((item) => {
+      return item.id !== action.payload;
+    });
+    const newTotal = updatedCartItems.reduce((sum, item) => {
+      return sum + item.price * item.quantity;
+    }, 0);
+
+    return {
+      cartItems: updatedCartItems,
+      total: newTotal,
+    };
+  }
+
+  if (action.type === "UPDATE") {
+    const updatedCartItems = state.cartItems
+      .map((item) =>
+        item.id === action.payload.id
+          ? { ...item, quantity: item.quantity + action.payload.amount }
+          : item
+      )
+      .filter((item) => item.quantity > 0);
+
+    const newTotal = updatedCartItems.reduce((sum, item) => {
+      return sum + item.price * item.quantity;
+    }, 0);
+
+    return {
+      cartItems: updatedCartItems,
+      total: newTotal,
+    };
+  }
+
   // If action type is unknown, return the current state
   return state;
 };
@@ -73,6 +107,14 @@ function App() {
   // Function to add an item to the cart
   const addItemToCart = (newItem) => {
     dispatch({ type: "ADD", payload: newItem }); // Dispatching action to reducer
+  };
+
+  const removeItemFromCart = (itemId) => {
+    dispatch({ type: "REMOVE", payload: itemId });
+  };
+
+  const updateCartItem = (itemId, amount) => {
+    dispatch({ type: "UPDATE", payload: { id: itemId, amount } });
   };
 
   return (
@@ -87,7 +129,16 @@ function App() {
           element={<Menu menuItems={data} onAdd={addItemToCart} />}
         />
         {/* Cart route - Displays the cart contents */}
-        <Route path="/cart" element={<Cart />} />
+        <Route
+          path="/cart"
+          element={
+            <Cart
+              cart={cartState}
+              onRemove={removeItemFromCart}
+              onUpdate={updateCartItem}
+            />
+          }
+        />
       </Routes>
     </Router>
   );
