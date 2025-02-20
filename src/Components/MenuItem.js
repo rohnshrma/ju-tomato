@@ -1,7 +1,10 @@
 import React from "react";
-
+import { useNavigate } from "react-router-dom";
 const MenuItem = ({ itemObj, onAdd }) => {
   const { name, description, price, imageUrl } = itemObj;
+
+  const navigate = useNavigate();
+
   return (
     <div className="col-lg-3 menu-item">
       <div className="card">
@@ -21,6 +24,7 @@ const MenuItem = ({ itemObj, onAdd }) => {
             className="btn btn-danger btn-block"
             onClick={() => {
               onAdd(itemObj);
+              navigate("/cart");
             }}
           >
             Add To Cart
