@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar"; // Navigation bar component
 import Menu from "./Components/Menu"; // Menu component that displays available items
 import Cart from "./Components/Cart"; // Cart component to show added items
-
+import EnterDetails from "./Components/EnterDetails";
 // Importing data (assuming it's a list of menu items)
 import data from "./data.js";
 
@@ -139,6 +139,7 @@ function App() {
             />
           }
         />
+        <Route path="/enter_details" element={<EnterDetails />} />
       </Routes>
     </Router>
   );
