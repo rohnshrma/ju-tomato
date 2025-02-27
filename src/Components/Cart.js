@@ -6,13 +6,7 @@ const Cart = ({ cart, onRemove, onUpdate }) => {
     <div className="cart">
       {cart.cartItems.length > 0 ? (
         cart.cartItems.map((itemObj) => (
-          <CartItem
-            item={itemObj}
-            onRemove={onRemove}
-            key={itemObj.id}
-            id={itemObj.id}
-            onUpdate={onUpdate}
-          />
+          <CartItem item={itemObj} key={itemObj.id} id={itemObj.id} />
         ))
       ) : (
         <h2 className="text-center">No Items In the Cart</h2>

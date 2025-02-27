@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaTrash } from "react-icons/fa";
+import { cartContext } from "../context/cartContext";
 
-const CartItem = ({ item, onRemove, onUpdate }) => {
+const CartItem = ({ item }) => {
+  const { dispatch } = useContext(cartContext);
+
   return (
     <div className="row align-items-center border-bottom py-3">
       {/* Image */}
@@ -23,7 +26,9 @@ const CartItem = ({ item, onRemove, onUpdate }) => {
       <div className="col-4 col-md-3 d-flex align-items-center">
         <button
           className="btn btn-outline-secondary btn-sm"
-          onClick={() => onUpdate(item.id, -1)}
+          onClick={() =>
+            dispatch({ type: "UPDATE", payload: { id: item.id, amount: -1 } })
+          }
           disabled={item.quantity <= 1}
         >
           -
@@ -37,7 +42,9 @@ const CartItem = ({ item, onRemove, onUpdate }) => {
         />
         <button
           className="btn btn-outline-secondary btn-sm"
-          onClick={() => onUpdate(item.id, 1)}
+          onClick={() =>
+            dispatch({ type: "UPDATE", payload: { id: item.id, amount: 1 } })
+          }
         >
           +
         </button>
@@ -52,7 +59,7 @@ const CartItem = ({ item, onRemove, onUpdate }) => {
       <div className="col-2 col-md-1 text-end">
         <button
           className="btn btn-danger btn-sm"
-          onClick={() => onRemove(item.id)}
+          onClick={() => dispatch({ type: "REMOVE", payload: item.id })}
         >
           <FaTrash />
         </button>

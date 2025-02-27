@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-const MenuItem = ({ itemObj, onAdd }) => {
+import { cartContext } from "../context/cartContext";
+const MenuItem = ({ itemObj }) => {
   const { name, description, price, imageUrl } = itemObj;
 
   const navigate = useNavigate();
+
+  const { dispatch } = useContext(cartContext);
 
   return (
     <div className="col-lg-3 menu-item">
@@ -23,7 +26,7 @@ const MenuItem = ({ itemObj, onAdd }) => {
           <button
             className="btn btn-danger btn-block"
             onClick={() => {
-              onAdd(itemObj);
+              dispatch({ type: "ADD", payload: itemObj });
               navigate("/cart");
             }}
           >
